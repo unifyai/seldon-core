@@ -6,7 +6,7 @@ spec:
   predictors:
   - graph:
       implementation: IVY_SERVER
-      modelUri: file:///home/rishab/Documents/codes/unify/seldon/ivy_seldon/seldon-core/examples/models/ivy_custom_server/artifacts
+      modelUri: 
       name: regressorivy
     name: default
     replicas: 1
