@@ -1,0 +1,12 @@
+apiVersion: machinelearning.seldon.io/v1alpha2
+kind: SeldonDeployment
+metadata:
+  name: regressor
+spec:
+  predictors:
+  - graph:
+      implementation: IVY_SERVER
+      modelUri: file:///home/rishab/Documents/codes/unify/seldon/ivy_seldon/seldon-core/examples/models/ivy_custom_server/artifacts
+      name: regressorivy
+    name: default
+    replicas: 1
