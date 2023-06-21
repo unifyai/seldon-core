@@ -6,7 +6,7 @@ spec:
   predictors:
   - graph:
       implementation: IVY_SERVER
-      modelUri: 
+      modelUri: gs://ivy-models/regressor
       name: regressorivy
     name: default
     replicas: 1
