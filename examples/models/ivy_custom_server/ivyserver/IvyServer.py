@@ -35,8 +35,8 @@ class IvyServer(SeldonComponent):
         # also, lint fixes definitely needed
         spec = importlib.util.spec_from_file_location('models', model_file)
         custom_module = importlib.util.module_from_spec(spec)
-        ivy.set_backend(custom_module.backend)
         spec.loader.exec_module(custom_module)
+        ivy.set_backend(custom_module.backend)
         self._model = custom_module.Regressor(custom_module.input_dim, 
                                               custom_module.output_dim,
                                               is_training=False)
