@@ -12,7 +12,7 @@ build:
 	s2i build \
 		-E environment \
 		./ivyserver \
-		seldonio/seldon-core-s2i-python38-ubi8:${VERSION} \
+		seldonio/seldon-core-s2i-python3:${VERSION} \
 		${IMAGE_NAME}:${VERSION}
 
 run_docker:

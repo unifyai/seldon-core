@@ -55,10 +55,10 @@ class IvyServer(SeldonComponent):
             raise requests.HTTPError("Model not loaded yet")
         
         if self.xtype == "ivy.array":
-            result = self._model.predict(X)
+            result = self._model(X)
         else:
             X = ivy.array(X)
-            result = self._model.predict(X)
+            result = self._model(X)
         
         logger.debug(f"Prediction result: {result}")
         return result

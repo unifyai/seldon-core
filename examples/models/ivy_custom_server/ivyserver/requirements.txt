@@ -1,2 +1,2 @@
-# seldon_core # do we need to add this?
-ivy
+# seldon_core
+git+https://github.com/unifyai/ivy.git@master
