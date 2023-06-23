@@ -1,6 +1,10 @@
 #!/bin/bash
 echo "Before assembling"
 
+# Install OpenSSL development package
+apt-get update
+apt-get install -y libssl-dev
+
 # Manually install Python
 PYTHON_VERSION="3.10.11"  # Update this to the desired Python version
 
@@ -11,27 +15,54 @@ wget https://www.python.org/ftp/python/${PYTHON_VERSION}/Python-${PYTHON_VERSION
 tar -xf Python-${PYTHON_VERSION}.tar.xz
 cd Python-${PYTHON_VERSION}
 
-# Configure and build Python
-./configure --prefix=/usr/local/python-${PYTHON_VERSION}
+# Rebuild Python with SSL support
+./configure --prefix=/usr/local/python-${PYTHON_VERSION} --with-openssl=/usr/include/openssl
 make
 make install
 
-# Set the desired Python version as the default
-echo "Setting installed Python as the default"
-ln -sf /usr/local/python-${PYTHON_VERSION}/bin/python${PYTHON_VERSION%.*} /usr/bin/python
+echo "Sanity check to make sure new Python was installed somewhere"
+find / -type d -name "python3.10"
+
+echo ${PYTHON_VERSION%.*}
+
+echo "Setting the desired Python version as the default"
+ln -sf /usr/local/python-${PYTHON_VERSION}/bin/python${PYTHON_VERSION%.*} /usr/local/bin/python
+
+# echo "Create a symbolic link from python to python3"
+# ln -sf /usr/bin/python /usr/bin/python3
+
+# Update PATH to prioritize Python 3.10.11
+# echo 'export PATH="/usr/local/python-'${PYTHON_VERSION}'/bin:$PATH"' >> ~/.bashrc
+# source ~/.bashrc
 
 # Return to the original directory
 cd ..
 
+echo "Python version according to python -V:"
 echo $(python -V)
-echo "Python version:"
-/usr/bin/python -V
+echo $(which python)
+# echo "Python version according to /usr/bin/python -V:"
+# /usr/bin/python -V
+# echo $(python3 -V)
+# echo $(which python3)
+# alias python='python3'
 
-echo "Checks "
-ls -l /usr/local/python-*
+# echo "Python version after alias update:"
+# echo $(python -V)
+# echo $(which python)
+# echo "Sanity check to make sure old Python does exist somewhere"
+# find / -type d -name "python3.6"
 
-# Update pip
-pip install --upgrade pip
+
+# echo "Checks "
+# ls -l /usr/local/python-*
+
+# Update pip for Python 3.10.11
+python -m pip install --upgrade pip
+
+# Create a symbolic link from old pip to new pip
+ln -sf /usr/local/python-${PYTHON_VERSION}/bin/pip /usr/bin/pip
+
 
 /s2i/bin/assemble
 rc=$?

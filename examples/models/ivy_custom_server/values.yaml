@@ -32,7 +32,7 @@ predictor_servers:
     protocols:
       seldon:
         defaultImageVersion: "1.17.0-dev"
-        image: seldonio/ivyserver
+        image: dockerhub/ivyserver
       kfserving:
         defaultImageVersion: "0.3.2"
         image: seldonio/mlserver
