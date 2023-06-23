@@ -1,6 +1,38 @@
 #!/bin/bash
 echo "Before assembling"
 
+# Manually install Python
+PYTHON_VERSION="3.10.11"  # Update this to the desired Python version
+
+# Download Python source code
+wget https://www.python.org/ftp/python/${PYTHON_VERSION}/Python-${PYTHON_VERSION}.tar.xz
+
+# Extract Python source code
+tar -xf Python-${PYTHON_VERSION}.tar.xz
+cd Python-${PYTHON_VERSION}
+
+# Configure and build Python
+./configure --prefix=/usr/local/python-${PYTHON_VERSION}
+make
+make install
+
+# Set the desired Python version as the default
+echo "Setting installed Python as the default"
+ln -sf /usr/local/python-${PYTHON_VERSION}/bin/python${PYTHON_VERSION%.*} /usr/bin/python
+
+# Return to the original directory
+cd ..
+
+echo $(python -V)
+echo "Python version:"
+/usr/bin/python -V
+
+echo "Checks "
+ls -l /usr/local/python-*
+
+# Update pip
+pip install --upgrade pip
+
 /s2i/bin/assemble
 rc=$?
 
